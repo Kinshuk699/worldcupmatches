@@ -246,6 +246,40 @@
   .tie.highlight-feed{border-color:var(--accent);box-shadow:0 0 22px var(--accent-soft)}
   .road-match.highlight-feed{border-color:var(--accent);box-shadow:0 0 22px var(--accent-soft)}
 
+  /* ---------- SHOT MAP ---------- */
+  .shot-map{margin-top:16px}
+  .shot-selectors{display:flex;flex-direction:column;gap:20px;margin-bottom:24px}
+  @media(min-width:860px){.shot-selectors{flex-direction:row;gap:48px}}
+  .shot-sel{flex:1}
+  .shot-sel .sel-label{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px}
+  .shot-sel .sel-label span{color:var(--accent)}
+  .shot-sel .sel-label span.p2{color:#f59e0b}
+  .sel-pills{display:flex;flex-wrap:wrap;gap:7px}
+  .sel-pill{display:flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text-dim);font-size:13px;font-family:var(--font-display);font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+  .sel-pill:hover{border-color:var(--line-2);color:var(--text)}
+  .sel-pill.p1-active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+  .sel-pill.p2-active{border-color:#f59e0b;background:rgba(245,158,11,.12);color:#f59e0b}
+  .sel-pill .pl-fl{font-size:15px;line-height:1}
+  .sel-pill .pl-short{font-size:11.5px;letter-spacing:.02em}
+
+  .pitch-wrap{position:relative;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);padding:8px}
+  .pitch-svg{display:block;width:100%;min-width:600px;height:auto}
+  .pitch-dot{cursor:pointer;transition:transform .2s,r .2s}
+  .pitch-dot:hover{transform:scale(1.5)}
+  .pitch-tooltip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--text);z-index:10;display:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+  .pitch-tooltip .tt-row{display:flex;gap:14px;margin-top:4px}
+  .pitch-tooltip .tt-row:first-child{margin-top:0}
+  .pitch-tooltip .tt-label{color:var(--text-mute);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;min-width:56px}
+  .pitch-tooltip .tt-val{font-weight:600;font-family:var(--font-display)}
+  .pitch-tooltip .tt-xg{color:#f59e0b}
+
+  .h2h-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:20px}
+  .h2h-col{padding:20px;background:var(--surface)}
+  .h2h-col h4{font-family:var(--font-display);font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+  .h2h-col h4 .c-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+  .h2h-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:13px;color:var(--text-dim)}
+  .h2h-row .h2h-val{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums;color:var(--text);font-size:15px}
+
   /* ---------- REVEAL ---------- */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
   .reveal.in{opacity:1;transform:none}
@@ -454,6 +488,55 @@
         <div class="who"><div class="pl">Mikel Oyarzabal</div><div class="ct">Spain · Forward</div></div>
         <div class="goals"><div class="gn">4</div><div class="gdots"><i></i><i></i><i></i><i></i></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOT MAP -->
+<section id="shotmap">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><h2>Shot Map · Head to Head</h2></div>
+      <p>Compare shot placement and goal patterns. Illustrative positions based on player profiles.</p>
+    </div>
+
+    <div class="shot-selectors reveal">
+      <div class="shot-sel">
+        <div class="sel-label">Player A <span id="p1Label" class="p1"></span></div>
+        <div class="sel-pills" id="p1Pills"></div>
+      </div>
+      <div class="shot-sel">
+        <div class="sel-label">Player B <span id="p2Label" class="p2"></span></div>
+        <div class="sel-pills" id="p2Pills"></div>
+      </div>
+    </div>
+
+    <div class="pitch-wrap reveal" id="pitchWrap">
+      <svg class="pitch-svg" viewBox="0 0 1050 680" id="pitchSvg">
+        <defs>
+          <radialGradient id="pitchBg" cx="50%" cy="50%"><stop offset="0%" stop-color="#1a2a18"/><stop offset="100%" stop-color="#0d130e"/></radialGradient>
+        </defs>
+        <rect x="0" y="0" width="1050" height="680" fill="url(#pitchBg)" rx="4"/>
+        <rect x="4" y="4" width="1042" height="672" fill="none" stroke="rgba(242,244,240,.25)" stroke-width="2.5"/>
+        <line x1="525" y1="4" x2="525" y2="676" stroke="rgba(242,244,240,.25)" stroke-width="2"/>
+        <circle cx="525" cy="340" r="91.5" fill="none" stroke="rgba(242,244,240,.2)" stroke-width="2"/>
+        <circle cx="525" cy="340" r="3.5" fill="rgba(242,244,240,.35)"/>
+        <rect x="4" y="136" width="165" height="408" fill="none" stroke="rgba(242,244,240,.2)" stroke-width="2"/>
+        <rect x="4" y="224" width="55" height="232" fill="none" stroke="rgba(242,244,240,.2)" stroke-width="2"/>
+        <rect x="881" y="136" width="165" height="408" fill="none" stroke="rgba(242,244,240,.2)" stroke-width="2"/>
+        <rect x="991" y="224" width="55" height="232" fill="none" stroke="rgba(242,244,240,.2)" stroke-width="2"/>
+        <line x1="882" y1="340" x2="878" y2="340" stroke="rgba(242,244,240,.15)" stroke-width="2"/>
+        <circle cx="882" cy="340" r="2.5" fill="rgba(242,244,240,.2)"/>
+        <rect x="1046" y="292" width="8" height="96" fill="rgba(242,244,240,.35)" rx="2"/>
+        <rect x="-4" y="292" width="8" height="96" fill="rgba(242,244,240,.25)" rx="2"/>
+        <g id="dotsGroup"></g>
+      </svg>
+      <div class="pitch-tooltip" id="pitchTooltip"></div>
+    </div>
+
+    <div class="h2h-stats reveal" id="h2hStats">
+      <div class="h2h-col" id="h2hColA"><h4><span class="c-dot" style="background:var(--accent)"></span> Select Player A</h4></div>
+      <div class="h2h-col" id="h2hColB"><h4><span class="c-dot" style="background:#f59e0b"></span> Select Player B</h4></div>
     </div>
   </div>
 </section>
@@ -757,6 +840,127 @@
     items.forEach(el=>io.observe(el));
   }
 
+  // ---- Shot Map Data ----
+  const shooters = [
+    { id:"messi", name:"Lionel Messi", short:"Messi", flag:"🇦🇷", country:"Argentina", goals:7, color:"#22c55e",
+      shots:[{x:820,y:300,f:"Left",s:"Open play",xg:0.38},{x:880,y:320,f:"Left",s:"Free kick",xg:0.12},{x:900,y:345,f:"Left",s:"Penalty",xg:0.79},{x:750,y:380,f:"Right",s:"Counter",xg:0.22},{x:840,y:360,f:"Left",s:"Open play",xg:0.31},{x:780,y:290,f:"Left",s:"Set piece",xg:0.18},{x:910,y:310,f:"Left",s:"Open play",xg:0.25}]},
+    { id:"mbappe", name:"Kylian Mbappé", short:"Mbappé", flag:"🇫🇷", country:"France", goals:7, color:"#f59e0b",
+      shots:[{x:860,y:270,f:"Right",s:"Counter",xg:0.42},{x:780,y:350,f:"Right",s:"Open play",xg:0.28},{x:910,y:340,f:"Right",s:"Penalty",xg:0.79},{x:830,y:310,f:"Right",s:"Open play",xg:0.34},{x:890,y:290,f:"Right",s:"Counter",xg:0.48},{x:720,y:400,f:"Right",s:"Open play",xg:0.15},{x:870,y:370,f:"Right",s:"Open play",xg:0.36}]},
+    { id:"kane", name:"Harry Kane", short:"Kane", flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", country:"England", goals:5, color:"#a78bfa",
+      shots:[{x:810,y:330,f:"Right",s:"Open play",xg:0.32},{x:910,y:342,f:"Right",s:"Penalty",xg:0.79},{x:760,y:280,f:"Right",s:"Cross",xg:0.22},{x:870,y:360,f:"Right",s:"Open play",xg:0.41},{x:790,y:390,f:"Head",s:"Cross",xg:0.28}]},
+    { id:"haaland", name:"Erling Haaland", short:"Haaland", flag:"🇳🇴", country:"Norway", goals:5, color:"#f87171",
+      shots:[{x:930,y:330,f:"Left",s:"Tap-in",xg:0.72},{x:880,y:345,f:"Left",s:"Penalty",xg:0.79},{x:950,y:310,f:"Left",s:"Cross",xg:0.56},{x:920,y:370,f:"Right",s:"Rebound",xg:0.62},{x:940,y:350,f:"Head",s:"Cross",xg:0.35}]},
+    { id:"vini", name:"Vinícius Júnior", short:"Vinícius Jr", flag:"🇧🇷", country:"Brazil", goals:4, color:"#60a5fa",
+      shots:[{x:850,y:280,f:"Right",s:"Open play",xg:0.24},{x:800,y:360,f:"Right",s:"Counter",xg:0.38},{x:890,y:330,f:"Right",s:"Open play",xg:0.42},{x:830,y:400,f:"Right",s:"Cross",xg:0.18}]},
+    { id:"dembele", name:"Ousmane Dembélé", short:"Dembélé", flag:"🇫🇷", country:"France", goals:4, color:"#c084fc",
+      shots:[{x:820,y:310,f:"Left",s:"Open play",xg:0.22},{x:870,y:350,f:"Left",s:"Open play",xg:0.30},{x:780,y:340,f:"Left",s:"Counter",xg:0.36},{x:900,y:300,f:"Left",s:"Open play",xg:0.44}]},
+    { id:"sarr", name:"Ismaïla Sarr", short:"Sarr", flag:"🇸🇳", country:"Senegal", goals:4, color:"#fb923c",
+      shots:[{x:840,y:290,f:"Right",s:"Counter",xg:0.28},{x:790,y:370,f:"Right",s:"Open play",xg:0.16},{x:880,y:340,f:"Right",s:"Fast break",xg:0.44},{x:810,y:320,f:"Right",s:"Open play",xg:0.20}]},
+    { id:"oyarzabal", name:"Mikel Oyarzabal", short:"Oyarzabal", flag:"🇪🇸", country:"Spain", goals:4, color:"#34d399",
+      shots:[{x:860,y:310,f:"Left",s:"Open play",xg:0.26},{x:920,y:350,f:"Left",s:"Cross",xg:0.52},{x:800,y:380,f:"Left",s:"Set piece",xg:0.14},{x:880,y:320,f:"Left",s:"Open play",xg:0.34}]}
+  ];
+
+  let selP1 = shooters[0];
+  let selP2 = shooters[1];
+
+  function buildPills(){
+    const p1c = document.getElementById("p1Pills");
+    const p2c = document.getElementById("p2Pills");
+    if (!p1c || !p2c) return;
+    p1c.innerHTML = ""; p2c.innerHTML = "";
+    shooters.forEach(s=>{
+      const b1 = document.createElement("button");
+      b1.className = "sel-pill"; b1.innerHTML = '<span class="pl-fl">'+s.flag+'</span><span class="pl-short">'+s.short+'</span>';
+      b1.addEventListener("click",()=>{ if (selP1.id !== s.id){ selP1 = s; refreshShotMap(); } });
+      p1c.appendChild(b1);
+      const b2 = document.createElement("button");
+      b2.className = "sel-pill"; b2.innerHTML = '<span class="pl-fl">'+s.flag+'</span><span class="pl-short">'+s.short+'</span>';
+      b2.addEventListener("click",()=>{ if (selP2.id !== s.id){ selP2 = s; refreshShotMap(); } });
+      p2c.appendChild(b2);
+    });
+    refreshShotMap();
+  }
+
+  function renderDots(){
+    const g = document.getElementById("dotsGroup");
+    if (!g) return;
+    g.innerHTML = "";
+    const players = selP1.id === selP2.id ? [selP1] : [selP1, selP2];
+    const colors = [selP1.id === selP2.id ? selP1.color : "#22c55e", selP2.id === selP1.id ? selP1.color : "#f59e0b"];
+    players.forEach((p,pi)=>{
+      const c = colors[pi];
+      p.shots.forEach((s,i)=>{
+        const cx = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        cx.setAttribute("cx",s.x); cx.setAttribute("cy",s.y); cx.setAttribute("r","7");
+        cx.setAttribute("fill",c); cx.setAttribute("stroke","#0a0e0b"); cx.setAttribute("stroke-width","2");
+        cx.classList.add("pitch-dot");
+        cx.addEventListener("mouseenter",(ev)=>{ showTooltip(ev,s,p); });
+        cx.addEventListener("mouseleave",hideTooltip);
+        g.appendChild(cx);
+      });
+    });
+    if (selP1.id !== selP2.id && selP1.shots.length + selP2.shots.length === 0){
+      // No overlap scenario handled by the two arrays
+    }
+  }
+
+  function refreshShotMap(){
+    // Update pills
+    document.querySelectorAll("#p1Pills .sel-pill").forEach((b,i)=>{
+      b.classList.toggle("p1-active", shooters[i].id === selP1.id);
+    });
+    document.querySelectorAll("#p2Pills .sel-pill").forEach((b,i)=>{
+      b.classList.toggle("p2-active", shooters[i].id === selP2.id);
+    });
+    // Labels
+    const l1 = document.getElementById("p1Label"); if(l1) l1.textContent = selP1.flag + " " + selP1.name;
+    const l2 = document.getElementById("p2Label"); if(l2) l2.textContent = selP2.flag + " " + selP2.name;
+    // Render dots
+    renderDots();
+    // Stats
+    buildH2HStats();
+  }
+
+  function buildH2HStats(){
+    const a = document.getElementById("h2hColA"), b = document.getElementById("h2hColB");
+    if (!a || !b) return;
+    const renderPlayer = (p, color, el) => {
+      const footMap = {}; const sitMap = {};
+      p.shots.forEach(s=>{ footMap[s.f] = (footMap[s.f]||0)+1; sitMap[s.s] = (sitMap[s.s]||0)+1; });
+      const maxXg = Math.max(...p.shots.map(s=>s.xg));
+      const avgXg = (p.shots.reduce((acc,s)=>acc+s.xg,0)/p.shots.length*100).toFixed(1);
+      let html = '<h4><span class="c-dot" style="background:'+color+'"></span>'+p.flag+' '+p.short+' <span style="font-weight:400;color:var(--text-mute);margin-left:auto;font-size:15px">'+p.goals+' goals</span></h4>';
+      html += '<div class="h2h-row"><span>Left foot</span><span class="h2h-val">'+(footMap["Left"]||0)+'</span></div>';
+      html += '<div class="h2h-row"><span>Right foot</span><span class="h2h-val">'+(footMap["Right"]||0)+'</span></div>';
+      html += '<div class="h2h-row"><span>Header</span><span class="h2h-val">'+(footMap["Head"]||0)+'</span></div>';
+      html += '<div class="h2h-row"><span>Open play</span><span class="h2h-val">'+(sitMap["Open play"]||0)+'</span></div>';
+      html += '<div class="h2h-row"><span>Counter / Break</span><span class="h2h-val">'+((sitMap["Counter"]||0)+(sitMap["Fast break"]||0))+'</span></div>';
+      html += '<div class="h2h-row"><span>Set piece / FK / Pen</span><span class="h2h-val">'+((sitMap["Set piece"]||0)+(sitMap["Free kick"]||0)+(sitMap["Penalty"]||0))+'</span></div>';
+      html += '<div class="h2h-row"><span>Best xG</span><span class="h2h-val tt-xg">'+maxXg.toFixed(2)+'</span></div>';
+      html += '<div class="h2h-row"><span>Avg xG per shot</span><span class="h2h-val tt-xg">'+avgXg+'%</span></div>';
+      el.innerHTML = html;
+    };
+    renderPlayer(selP1, "#22c55e", a);
+    renderPlayer(selP2, "#f59e0b", b);
+  }
+
+  function showTooltip(ev, shot, player){
+    const tt = document.getElementById("pitchTooltip");
+    if (!tt) return;
+    const wrap = document.getElementById("pitchWrap");
+    const rect = wrap.getBoundingClientRect();
+    tt.innerHTML = '<strong>'+player.flag+' '+player.short+'</strong>'+
+      '<div class="tt-row"><span class="tt-label">Foot</span><span class="tt-val">'+shot.f+' foot</span></div>'+
+      '<div class="tt-row"><span class="tt-label">Situation</span><span class="tt-val">'+shot.s+'</span></div>'+
+      '<div class="tt-row"><span class="tt-label">Result</span><span class="tt-val" style="color:var(--accent)">Goal</span></div>'+
+      '<div class="tt-row"><span class="tt-label">xG</span><span class="tt-val tt-xg">'+shot.xg.toFixed(2)+'</span></div>'+
+      '<div class="tt-row"><span class="tt-label">xGOT</span><span class="tt-val tt-xg">'+(shot.xg*1.25).toFixed(2)+'</span></div>';
+    const x = ev.clientX - rect.left + 14;
+    const y = ev.clientY - rect.top - 10;
+    tt.style.left = x+'px'; tt.style.top = y+'px'; tt.style.display = 'block';
+  }
+  function hideTooltip(){ const tt = document.getElementById("pitchTooltip"); if(tt) tt.style.display = "none"; }
+
   // ---- Boot ----
   tickClock();
   tickCountdown();
@@ -764,6 +968,7 @@
   setupTieExpand();
   setupPredictions();
   setupBracketHover();
+  buildPills();
   setInterval(tickClock, 1000);
   setInterval(tickCountdown, 1000);
 </script>
