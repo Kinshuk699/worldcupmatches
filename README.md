@@ -21,6 +21,13 @@ All match data, scores, standings, and schedules sourced from `2026-world-cup.md
 
 Open `index.html` in any browser — no build step, no dependencies.
 
+For local development, serve with Python:
+
+```bash
+python3 -m http.server 8080
+# → http://localhost:8080
+```
+
 ## License
 
 MIT
